@@ -9,13 +9,13 @@ class PessoaFisicaRepository:
         with self.__db_connection as database:
             try:
                 pessoa_fisica = PessoaFisica(
-                    renda_mensal,
-                    idade,
-                    nome_completo,
-                    celular,
-                    email,
-                    categoria,
-                    saldo
+                    renda_mensal=renda_mensal,
+                    idade=idade,
+                    nome_completo=nome_completo,
+                    celular=celular,
+                    email=email,
+                    categoria=categoria,
+                    saldo=saldo
                 )
                 database.session.add(pessoa_fisica)
                 database.session.commit()
