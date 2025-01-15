@@ -1,3 +1,4 @@
+import pytest
 from src.models.sqlite.entities.pessoa_fisica import PessoaFisica
 from .list_person_controller import ListPersonController
 
@@ -14,40 +15,33 @@ class MockPessoaFisica:
 
 class MockPessoaFisicaRepository:
     def get(self):
-        list_get = []
-        pessoa_fisica = MockPessoaFisica(
-            id=1,
-            renda_mensal=2000,
-            idade=30,
-            nome_completo="Jhon Doe",
-            celular="96369-9691",
-            email="teste@teste.com",
-            categoria="Categoria A",
-            saldo=5000
-        )
-
-        list_get.append(pessoa_fisica)
-
-        return list_get
+        return [
+            {
+                "renda_mensal": 2000,
+                "idade": 30,
+                "nome_completo": "Jhon Doe",
+                "celular": "96369-9691",
+                "email": "teste@teste.com",
+                "categoria": "Categoria A",
+                "saldo": 5000
+            }
+        ]
     
 class MockPessoaJuridicaRepository:
     def get(self):
-        list_get = []
-        pessoa_fisica = MockPessoaFisica(
-            renda_mensal=2000,
-            idade=30,
-            nome_completo="Jhon Doe",
-            celular="96369-9691",
-            email="teste@teste.com",
-            categoria="Categoria A",
-            saldo=5000
-        )
-
-        list_get.append(pessoa_fisica)
-
-        return list_get
+        return [
+            {
+            "faturamento": 80000,
+            "idade": 10,
+            "nome_fantasia": "JD Bussiness LTDA",
+            "celular": "96369-9691",
+            "email_corporativo": "teste@teste.com",
+            "categoria": "Categoria B",
+            "saldo": 500000
+            }
+        ]
     
-def test_list_person_pessoa_fisica():
+def test_list_pessoa_fisica():
     controller = ListPersonController(MockPessoaFisicaRepository(),MockPessoaJuridicaRepository())
 
     response = controller.list_person("PF")
@@ -69,4 +63,32 @@ def test_list_person_pessoa_fisica():
     }
 
     assert response == expected_response
-    
+
+def test_list_pessoa_juridica():
+    controller = ListPersonController(MockPessoaFisicaRepository(),MockPessoaJuridicaRepository())
+
+    response = controller.list_person("PJ")
+
+    expected_response = {
+        "data": {
+                "type": "Pessoa Juridica",
+                "count": 1,
+                "attributes": [{
+                    "faturamento": 80000,
+                    "idade": 10,
+                    "nome_fantasia": "JD Bussiness LTDA",
+                    "celular": "96369-9691",
+                    "email_corporativo": "teste@teste.com",
+                    "categoria": "Categoria B",
+                    "saldo": 500000
+                }]
+            }
+    }
+
+    assert response == expected_response
+
+def test_list_pessoa_erro():
+    controller = ListPersonController(MockPessoaFisicaRepository(),MockPessoaJuridicaRepository())
+
+    with pytest.raises(Exception):
+        controller.list_person("TYPE")

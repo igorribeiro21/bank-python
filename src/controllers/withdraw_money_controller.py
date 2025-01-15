@@ -1,0 +1,52 @@
+from src.models.sqlite.entities.pessoa_fisica import PessoaFisica
+from src.models.sqlite.entities.pessoa_juridica import PessoaJuridica
+from src.models.sqlite.interfaces.pessoa_fisica_repository import PessoaFisicaRepositoryInterface
+from src.models.sqlite.interfaces.pessoa_juridica_repository import PessoaJuridicaRepositoryInterface
+
+class WithdrawMoneyController:
+    
+    def __init__(self, pessoa_fisica_repository: PessoaFisicaRepositoryInterface, pessoa_juridica_repository: PessoaJuridicaRepositoryInterface):
+        self.__pessoa_fisica_repository = pessoa_fisica_repository
+        self.__pessoa_juridica_repository = pessoa_juridica_repository
+
+    def withdraw_money(self,amount: float,client_id:int, type: str):
+        amount_client = 0.00
+
+        if type == "PF":
+            client = self.__get_pessoa_fisica_in_db(client_id)
+            
+            amount_client = float(client.saldo)
+            if amount > amount_client:
+                raise Exception("Saldo insuficiente")
+
+            new_balance = amount_client - amount
+
+            self.__pessoa_fisica_repository.update_saldo(client_id, new_balance)
+        
+        elif type == "PJ":
+            client = self.__get_pessoa_juridica_in_db(client_id)
+            
+            amount_client = float(client.saldo)
+
+            if amount > amount_client:
+                raise Exception("Saldo insuficiente")
+
+            new_balance = amount_client - amount
+
+            self.__pessoa_juridica_repository.update_faturamento(client_id, new_balance)
+
+    def __get_pessoa_fisica_in_db(self,pessoa_fisica_id) -> PessoaFisica:
+            client = self.__pessoa_fisica_repository.get_pessoa_fisica(pessoa_fisica_id)
+
+            if client is None:
+                raise Exception("Cliente não encontrado")
+            
+            return client
+    
+    def __get_pessoa_juridica_in_db(self,pessoa_juridica_id) -> PessoaFisica:
+            client = self.__pessoa_juridica_repository.get_pessoa_juridica(pessoa_juridica_id)
+
+            if client is None:
+                raise Exception("Cliente não encontrado")
+            
+            return client

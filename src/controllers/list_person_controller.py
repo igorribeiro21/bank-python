@@ -15,9 +15,6 @@ class ListPersonController(ListPersonControllerInterface):
         if type == "PF":
             list_response = self.__list_pessoa_fisica_in_db()
 
-            print("list_response")
-            print(list_response)
-
             formated_response = self.__format_response(list_response, "Pessoa Fisica")
         elif type == "PJ":
             list_response = self.__list_pessoa_juridica_in_db()
@@ -25,9 +22,6 @@ class ListPersonController(ListPersonControllerInterface):
             formated_response = self.__format_response(list_response, "Pessoa Juridica")
         else:
             raise Exception("Tipo informado é inválido!")
-
-        print("formated_response")
-        print(formated_response)
         
         return formated_response
 
@@ -45,7 +39,7 @@ class ListPersonController(ListPersonControllerInterface):
     def __format_response(self, list: list[PessoaFisica] | list[PessoaJuridica], type: str) -> dict:
         return {
             "data": {
-                "type": "Person",
+                "type": type,
                 "count": len(list),
                 "attributes":list
             }
