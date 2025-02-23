@@ -4,7 +4,7 @@ from src.models.sqlite.entities.pessoa_juridica import PessoaJuridica
 class PessoaJuridicaRepositoryInterface(ABC):
 
     @abstractmethod
-    def create(self, renda_mensal: float, idade: int, nome_completo: str, celular: str, email: str,categoria: str, saldo:float) -> None:
+    def create(self, faturamento: float, idade: int, nome_fantasia: str, celular: str, email_corporativo: str,categoria: str, saldo:float) -> None:
         pass
 
     @abstractmethod
