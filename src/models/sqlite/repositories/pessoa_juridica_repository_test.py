@@ -109,7 +109,7 @@ def test_update_faturamento():
     pessoa_juridica_id = 1
     novo_saldo = 10000.00
 
-    repo.update_faturamento(pessoa_juridica_id, novo_saldo)
+    repo.update_saldo(pessoa_juridica_id, novo_saldo)
 
     mock_connection.session.execute.assert_called_once()
     mock_connection.session.commit.assert_called_once()
@@ -124,7 +124,7 @@ def test_update_faturamento_exception():
     novo_saldo = 10000.00
 
     with pytest.raises(Exception, match="Erro ao atualizar saldo"):
-        repo.update_faturamento(pessoa_juridica_id, novo_saldo)
+        repo.update_saldo(pessoa_juridica_id, novo_saldo)
 
     mock_connection.session.rollback.assert_called_once()
     mock_connection.session.commit.assert_not_called()

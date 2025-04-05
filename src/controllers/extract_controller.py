@@ -16,12 +16,12 @@ class ExtractController(ExtractControllerInterface):
         if type_person == "PF":
             client = self.__get_pessoa_fisica_in_db(client_id)
 
-            format_response = self.__format_response(client["nome_completo"], client["saldo"], "Pessoa Fisica")
+            format_response = self.__format_response(client.nome_completo, client.saldo, "Pessoa Fisica")
 
         elif type_person == "PJ":
             client = self.__get_pessoa_juridica_in_db(client_id)
 
-            format_response = self.__format_response(client["nome_fantasia"], client["saldo"], "Pessoa Juridica")
+            format_response = self.__format_response(client.nome_fantasia, client.saldo, "Pessoa Juridica")
 
         return format_response
 

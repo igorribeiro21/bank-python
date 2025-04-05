@@ -46,7 +46,7 @@ class WithdrawMoneyController(WithdrawMoneyControllerInterface):
 
             new_balance = amount_client - amount
 
-            self.__pessoa_juridica_repository.update_faturamento(client_id, new_balance)
+            self.__pessoa_juridica_repository.update_saldo(client_id, new_balance)
 
             format_response = self.__format_response(amount, new_balance, "Pessoa Juridica")
 

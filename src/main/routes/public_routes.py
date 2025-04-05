@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from src.views.http_types.http_request import HttpRequest
 
 from src.main.composer.withdraw_money_composer import withdraw_money_composer
+from src.main.composer.extract_composer import extract_composer
 
 from src.errors.error_handler import handle_errors
 
@@ -12,6 +13,19 @@ def withdraw_money(client_id, type):
     try:
         http_request = HttpRequest(body=request.json, param={ "client_id": client_id, "type": type })
         view = withdraw_money_composer()
+
+        http_response = view.handle(http_request)
+
+        return jsonify(http_response.body), http_response.status_code
+    except Exception as exception:
+        http_response = handle_errors(exception)
+        return jsonify(http_response.body), http_response.status_code
+    
+@public_route_bp.route("/extract/<client_id>/<type>", methods=["GET"])
+def extract(client_id, type):
+    try:
+        http_request = HttpRequest(param={ "client_id": client_id, "type": type })
+        view = extract_composer()
 
         http_response = view.handle(http_request)
 
