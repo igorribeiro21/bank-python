@@ -15,3 +15,15 @@ class PessoaFisica(Base):
 
     def __repr__(self):
         return f"PessoaFisica [nome_completo=${self.nome_completo}, renda_mensal=${self.renda_mensal}, saldo=${self.saldo}]"
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "renda_mensal": self.renda_mensal,
+            "idade": self.idade,
+            "nome_completo": self.nome_completo,
+            "celular": self.celular,
+            "email": self.email,
+            "categoria": self.categoria,
+            "saldo": self.saldo
+        }

@@ -12,7 +12,7 @@ class PessoaJuridicaRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    def update_faturamento(self, pessoa_juridica_id: int, faturamento: float) -> None:
+    def update_saldo(self, pessoa_juridica_id: int, faturamento: float) -> None:
         pass
 
     @abstractmethod

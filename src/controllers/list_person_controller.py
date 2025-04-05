@@ -41,6 +41,6 @@ class ListPersonController(ListPersonControllerInterface):
             "data": {
                 "type": type,
                 "count": len(list),
-                "attributes":list
+                 "attributes": [obj.to_dict() for obj in list]
             }
         }

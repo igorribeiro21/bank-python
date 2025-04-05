@@ -17,8 +17,12 @@ class WithdrawMoneyController(WithdrawMoneyControllerInterface):
 
         if type_person == "PF":
             client = self.__get_pessoa_fisica_in_db(client_id)
+            withdraw_max = 5000
 
-            amount_client = float(client["saldo"])
+            amount_client = float(client.saldo)
+            if amount > withdraw_max:
+                raise Exception(f"Valor excede o valor máximo permitido de R$ {withdraw_max} de saque para {type_person}")
+
             if amount > amount_client:
                 raise Exception("Saldo insuficiente")
 
@@ -30,15 +34,19 @@ class WithdrawMoneyController(WithdrawMoneyControllerInterface):
 
         elif type_person == "PJ":
             client = self.__get_pessoa_juridica_in_db(client_id)
+            withdraw_max = 10000
 
-            amount_client = float(client["saldo"])
+            amount_client = float(client.saldo)
+
+            if amount > withdraw_max:
+                raise Exception(f"Valor excede o valor máximo permitido de R$ {withdraw_max} de saque para {type_person}")
 
             if amount > amount_client:
                 raise Exception("Saldo insuficiente")
 
             new_balance = amount_client - amount
 
-            self.__pessoa_juridica_repository.update_faturamento(client_id, new_balance)
+            self.__pessoa_juridica_repository.update_saldo(client_id, new_balance)
 
             format_response = self.__format_response(amount, new_balance, "Pessoa Juridica")
 

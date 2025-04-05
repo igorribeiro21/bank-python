@@ -35,13 +35,13 @@ class PessoaJuridicaRepository(PessoaJuridicaRepositoryInterface):
             except Exception as exception:
                 raise exception
             
-    def update_faturamento(self, pessoa_juridica_id: int, faturamento: float) -> None:
+    def update_saldo(self, pessoa_juridica_id: int, saldo: float) -> None:
         with self.__db_connection as database:
             try:
                 stmt = (
                     update(PessoaJuridica)
                     .where(PessoaJuridica.id == pessoa_juridica_id)
-                    .values(faturamento=faturamento)
+                    .values(saldo=saldo)
                 )
 
                 database.session.execute(stmt)

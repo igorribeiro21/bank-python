@@ -19,7 +19,7 @@ class MockPessoaFisicaRepository:
         }
 
 class MockPessoaJuridicaRepository:
-    def update_faturamento(self, pessoa_juridica_id: int, faturamento: float) -> None:
+    def update_saldo(self, pessoa_juridica_id: int, faturamento: float) -> None:
         pass
 
     def get_pessoa_juridica(self, pessoa_juridica_id: int) -> PessoaJuridica:
@@ -41,7 +41,7 @@ class MockPessoaFisicaNotFoundRepository:
         return None
 
 class MockPessoaJuridicaNotFoundRepository:
-    def update_faturamento(self, pessoa_juridica_id: int, faturamento: float) -> None:
+    def update_saldo(self, pessoa_juridica_id: int, faturamento: float) -> None:
         pass
 
     def get_pessoa_juridica(self, pessoa_juridica_id: int) -> PessoaJuridica:
